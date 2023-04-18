@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,body {
+    height: 100%;
+    width:100%;
+	margin: 0;
+    background-color: #ffffff;
+  }
+  .box{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(169,25,175,1) 35%, rgba(0,212,255,1) 100%);
+  }
+  .centervertical{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+  }
+  .logo{
+    width:15vw;
+    height:10vh;
+}
+.top-row{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+.dashcontainer{
+    height: 100vh !important;
+    background-color: #cccccc;
+}
+.dash1{
+    background: rgb(2,0,36);
+background: linear-gradient(180deg, rgba(2,0,36,1) 3%, rgba(17,34,167,1) 71%);
+}
+.dash2{
+    background: rgb(34,193,195);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(12,19,77,1) 100%);
+}
+.dash3{
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 3%, rgba(150,17,167,1) 71%, rgba(224,25,232,0.9850139885055584) 90%);
+}
+.grow{
+    transition: all .2s ease-in-out;
+    margin: 10px 10px 10px 10px;
+}
+.grow:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+
+}
+.rounded{
+    border-radius:  15px 15px 15px !important;
+}
+.section{
+      border:1px solid #cfcfd4;
+}
+.emptytr{
+    background-color: #3838b9;
+    width: 100%;
+    border-radius: 10px 10px 10px 10px;
+}
+.table{
+
+}
+#projectslist_table{
+    width: 100%;
+}
+#projectslist_table tbody td th{
+
+    float: left;
+    word-break: break-word;
+    padding-left: 10px;
+   }
+   #projectslist_table{
+    border-top: hidden;
+         }
+    #projectslist_table >tbody>tr>td{
+      /*border-top: 1px solid #928ce2;*/
+     line-height: 30px;
+     font-size: 14px;
+    }
+    .p-4{
+      overflow-x: hidden;
+    }
+    #projectslist_table >tbody>tr>td:hover{
+        cursor: pointer;
+    }
+
+.titlelink{
+        display: inline-block;
+        width: 350px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+      }
+#claimupdate{
+   
+  display: none;
+  margin: auto;
+}
+
+.form-control{
+    border-radius: 15px 15px 15px 15px;
+    border: 1px solid #b0b0b6;
+    color: #2c2c2c;
+}
+.form-control:focus{
+box-shadow: 2px 4px 4px #c9cddd;
+border:1px solid #bcbcec;
+}
+
+.btn{
+    border-radius: 5px 5px 5px 5px;
+}
+.btn:hover{
+    color: #ffffff !important;
+    font-weight: bold !important;
+}
+.btn-block{
+    width: 100%;
+}
+.btn-primmary{
+    background-color: #4562e6;
+    color: aliceblue;
+}
+
+#alertmessage, #alertmessage2{
+    display: none;
+}
+
+.emptyrow{
+    height: 15px;
+    /*width: 100%;*/
+    background-color: #e1e3e7;
+    border-radius: 20px 20px 20px 20px;
+    margin-top: 5px;
+
+
+}
+
+#claimprinttable table>thead,
+ #claimprintouttable  table>thead, 
+ #projectslist_table table>thead,
+ #serviceticketstable table>thead{
+    font-size: 13px;
+    /*background-color: #4562e6 !important;*/
+    color: #ffffff;
+    text-align: center;
+}
+#claimprinttable tbody>tr>td, 
+#claimprintouttable tbody>tr>td,
+ #projectslist_table tbody>tr>td,
+ #serviceticketstable tbody>tr>td{
+    padding: 2px 2px 2px 2px;
+    text-align: justify;
+    color: rgb(80, 78, 78);
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 0;
+    text-align: justify;
+    line-height: 35px;
+}
+#claimprinttable tbody tr:hover,
+#serviceticketstable tbody tr:hover{
+    font-size: 15px;
+    background-color:#0d6efd;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+.table tbody tr:hover td{
+    font-size: 15px;
+    background-color:#0d6efd;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+.printout{
+    background-color: #ffffff;
+    border: 1px solid #bdbec2;
+    /*height: 130vh;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);*/
+}
+
+#printpage{
+/*width: 21cm;
+min-height: 29.7cm;
+padding: 2cm;
+margin: 1cm auto;
+border: 1px #D3D3D3 solid;
+border-radius: 5px;
+background: white;*/
+/*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
+}
+@page {
+    /*size: A4;*/
+    size:A4 landscape;
+    margin: 0;
+    }
+    @media print {
+    .page {
+        margin: 1cm auto;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+        }
+       }
+.thead-dark{
+    background-color: #656568 !important;
+    color: #ffffff;
+
+}
+#claimprintouttable{
+    width: 100%;
+}
+
+
+#travelmode{
+    width: 80% !important;
+    border: 1px solid #c6c6cc;
+    border-radius: 0px 5px 5px 0;
+    line-height: 12px;
+}
+#travelmode:focus{
+    border: 1px solid #c6c6cc;
+}
+.busfare, .kmtravel,.companyprovided{
+    display: none;
+
+}
+
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.pagination{
+    margin-top: 10px;
+}
+/*  PRINT OUT STYLES */
+
+@media print {
+    .hidden-print,
+    .hidden-print * {
+        display: none !important;
+    }
+}
