@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Service Tickets')
 @section('content')
 
 <div class="container pb-5">
@@ -10,8 +11,9 @@
         <!--<div class="col-sm-1"></div>-->
         <div class="col-sm-12">
             <div class="bg-light rounded pl-5 pr-5 pt-6 pb-6  section">
-                <div class="alert alert-info ml-10 mr-10" role="alert">
-                   Click a ticket to update it.
+                <div class="alert alert-info ml-5 mr-5" role="alert">
+                   Click a ticket to update it. Click <a href="{{ route('claims.mileage') }}">
+                    <span class="text-primary fw-bold">here</span></a> to create your claims. </span>
                   </div>
                   <div class="row">
 

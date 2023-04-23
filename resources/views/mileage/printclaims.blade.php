@@ -10,7 +10,7 @@
      <div class=" bg-light rounded border pt-5 pb-5 pl-10 pr-10">
       <div id="showclaimlist">
        <div class="row grid-container ">
-        
+
         <div class="col-sm-12">
             @empty(!$claims)
             <div class="alert alert-info text-left" role="alert" id="alertmessage2" style="display:block;">
@@ -72,12 +72,12 @@
                                 <th style="width: 8%; display:none;">Ticket#</th>
                                 <th style="width: 8%; font-size:13px;">Date</th>
                                 <th style="width: 8%; font-size:13px;">Time</th>
-                                <th style="width: 7%; font-size:13px;">Job Card#</th>
+                                <th style="width: 8%; font-size:12px;">Job Card#</th>
                                 <th style="width: 12%; font-size:13px;">Bill Ref#</th>
                                 <th style="width: 18%; font-size:13px;">Client</th>
                                 <th style="width: 20%; font-size:13px;">Task</th>
                                 <th>Location</th>
-                                
+
                                 <th style="width: 10%">Amount</th>
                             </thead>
                             @endempty
@@ -90,15 +90,15 @@
                                         <td style="text-align: center;">{{ $key+1 }}</td>
                                         <td style="display:none;">{{ $claim->ticketno }}</td>
                                         <td>
-                                            @if($claim->servicedate!=null)
-                                                {{\Carbon\Carbon::parse($claim->servicedate)->format('d M,Y')}}
+                                            @if($claim->start_time!=null)
+                                                {{\Carbon\Carbon::parse($claim->start_time)->format('d M,Y')}}
                                             @else
                                                 Not updated
                                             @endif
                                         </td>
                                         <td> @if($claim->start_time!=null && $claim->end_time!=null )
                                             {{ Carbon\Carbon::parse($claim->start_time)->format('H:i') }} to
-                                            {{ Carbon\Carbon::parse($claim->end_time)->format('H:i') }} 
+                                            {{ Carbon\Carbon::parse($claim->end_time)->format('H:i') }}
                                           @else
                                              Not updated
                                           @endif
@@ -113,7 +113,7 @@
                                         <td>{{ $claim->clientname }}</td>
                                         <td style="font-size:13px;">{{ $claim->faultreported }}</td>
                                         <td>{{ $claim->location }}</td>
-                                       
+
                                         <td class="text-center">@money($claim->claimamount)</td>
                                     </tr>
 
@@ -128,14 +128,14 @@
                         </table>
                         <div class="row pl-10 pr-10 pb-10">
                             <div class="col-sm-12">
-                              
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-     
+
 
      </div>
      </div>

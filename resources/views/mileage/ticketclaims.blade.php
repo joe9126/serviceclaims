@@ -17,12 +17,12 @@
             <div class="col-sm-12 pl-10 pr-10">
                 @empty(!$ticketclaims)
                 <div class="alert alert-info text-left " role="alert" id="alertmessage" style="display:block;">
-                    <span class="fw-bold">Click an unclaimed ticket below to update it. Click <a href="{{ route('claims.print') }}">
+                    <span class="fw-bold">Click an unclaimed ticket below to update it. Click <a href="{{ route('claims.mileage') }}">
                       <span class="text-primary fw-bold">here</span></a> to print your claims. </span>
                 </div>
                 @endempty
              <div class=" justify-content-center">
-                
+
                 <div class="table-responsive  overflow-hidden pt-2" >
                     <table class="table table-responsive table-striped table-bordered table-hover overflow-hidden mb-10" id="projectslist_table">
                         @empty(!$ticketclaims)
@@ -47,13 +47,13 @@
                                  <td style="font-size:13px;"> {{$ticketclaim->clientname}}</td>
                                  <td style="font-size:13px;"> {{$ticketclaim->faultreported}}</td>
                                  <td style="font-size:13px;"> {{$ticketclaim->location}}</td>
-                                 <td style="font-size:13px;"> 
+                                 <td style="font-size:13px;">
                                     {{\Carbon\Carbon::parse($ticketclaim->ticketdate)->format('d M,Y')}}
                                  </td>
                                  <td style="font-size:13px;">
                                   {{ Carbon\Carbon::parse($ticketclaim->start_time)->format('H:i') }} to
-                                  {{ Carbon\Carbon::parse($ticketclaim->end_time)->format('H:i') }} 
-                                
+                                  {{ Carbon\Carbon::parse($ticketclaim->end_time)->format('H:i') }}
+
                               </td>
                                  <td style="font-size:13px;">
                                     @money($ticketclaim->claimamount)
@@ -91,7 +91,7 @@
 
                     <div class="row pl-10 pr-10 pb-10">
                         <div class="col-sm-12">
-                          
+
                         </div>
                     </div>
                 </div> <!-- end of table-responsive div> -->
@@ -106,7 +106,7 @@
 
  <div class="row justify-content-center" id="claimupdate">
     <div class="col-sm-12">
-        
+
 
         <div class="row bg-light rounded border pt-3 pb-5 justify-content-center">
             <div class="card ml-10 mr-10 pl-10 pr-10 pt-2 pb-2 col-sm-8">
@@ -143,7 +143,7 @@
 
                       <div class="form-group row mb-3">
                         <!--<label for="travelmode" class="col-sm-4 col-form-label">Travel Mode <span class="text-danger">*</span></label>-->
-                       
+
                             <div class="input-group mt-3 col-sm-8">
                                 <div class="input-group-prepend">
                                   <label class="input-group-text" for="inputGroupSelect01">Travel Mode *</label>
@@ -155,7 +155,7 @@
                                   <option value="Company Provided">Company Provided</option>
                                 </select>
                               </div>
-                       
+
                     </div>
 
                       <div class="form-group row ">
@@ -183,7 +183,7 @@
                       <div class="form-group row">
                         <label for="companyprovided" class="col-sm-2 col-form-label companyprovided">Claim</label>
                         <div class="col-sm-4">
-                          <input type="number" id="companyprovided"class="form-control companyprovided" 
+                          <input type="number" id="companyprovided"class="form-control companyprovided"
                              data-parsley-type='number' value="0.00"name="companyprovided" readonly>
                         </div>
                       </div>
@@ -201,7 +201,7 @@
                               data-parsley-trigger="keyup" data-parsley-type='number'required="" name="dinner">
                          </div>
 
-                        
+
                      </div>
 
                      <div class="form-group row mb-3">
@@ -217,11 +217,11 @@
                              data-parsley-trigger="keyup" data-parsley-type='number'required="" name="accommodation">
                         </div>
 
-                        
+
                     </div>
 
                     <div class="form-group row mb-3">
-                       
+
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-2"></div>

@@ -1,0 +1,63 @@
+{
+  "node_modules/canvg/lib/index.es.js": {
+    "file": "assets/index.es-73370317.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "node_modules/canvg/lib/index.es.js"
+  },
+  "node_modules/dompurify/dist/purify.es.js": {
+    "file": "assets/purify.es-9f923ed6.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/dompurify/dist/purify.es.js"
+  },
+  "node_modules/html2canvas/dist/html2canvas.esm.js": {
+    "file": "assets/html2canvas.esm-0a33ed42.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/html2canvas/dist/html2canvas.esm.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-d3f812a3.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/css/parsley.css": {
+    "file": "assets/parsley-db375082.css",
+    "isEntry": true,
+    "src": "resources/css/parsley.css"
+  },
+  "resources/images/fidget-spinner.gif": {
+    "file": "assets/fidget-spinner-2d728c0c.gif",
+    "src": "resources/images/fidget-spinner.gif"
+  },
+  "resources/images/symphony.png": {
+    "file": "assets/symphony-93c6d280.png",
+    "src": "resources/images/symphony.png"
+  },
+  "resources/js/app.js": {
+    "dynamicImports": [
+      "node_modules/html2canvas/dist/html2canvas.esm.js",
+      "node_modules/dompurify/dist/purify.es.js",
+      "node_modules/canvg/lib/index.es.js"
+    ],
+    "file": "assets/app-c179de23.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/jquery.number.js": {
+    "file": "assets/jquery.number-9eb2ac06.js",
+    "isEntry": true,
+    "src": "resources/js/jquery.number.js"
+  },
+  "resources/js/parsley.js": {
+    "file": "assets/parsley-290c00f7.js",
+    "isEntry": true,
+    "src": "resources/js/parsley.js"
+  },
+  "resources/js/script.js": {
+    "file": "assets/script-38969a74.js",
+    "isEntry": true,
+    "src": "resources/js/script.js"
+  }
+}

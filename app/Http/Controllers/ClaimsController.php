@@ -60,7 +60,7 @@ class ClaimsController extends Controller
             "claims.others",
             "claims.claimstatus",
             DB::raw('IFNULL(claims.claimamount,"0") as claimamount'),
-           
+
              "clients.clientname",
         )
         ->leftjoin("claims","servicetickets.ticketno","=","claims.ticketno")
@@ -120,7 +120,7 @@ class ClaimsController extends Controller
             "claims.claimamount"
             )
         ->leftjoin("claims","servicetickets.ticketno","=","claims.ticketno")
-        ->leftjoin("serviceentries","claims.ticketno","=","serviceentries.ticketno")
+        ->rightjoin("serviceentries","claims.ticketno","=","serviceentries.ticketno")
         ->leftjoin("clients","servicetickets.client","=","clients.id")
        ->leftjoin("users","servicetickets.personnel","=","users.id")
        ->where("users.id","=",Auth::id())
@@ -157,19 +157,19 @@ class ClaimsController extends Controller
     }
 
  public function tempstoreclaimPrint(Request $request){ //route:post  printpreviewstore //store the print data temporarily to db
-       
+
        $claimdata = json_decode($request->get("claimsdata"));
       // dump( $claimdata);
 
      $i = count($claimdata);
-    
+
       ClaimstoPrint::where('userid',Auth::user()->id)->delete();
-  
- 
+
+
         for( $j=0;$j<$i;$j++) {
             $response =  ClaimstoPrint::updateOrCreate(
                ['ticketno'=>$claimdata[$j]->ticketno],//update where or insert
-   
+
                [ 'userid'=>Auth::user()->id,
                'ticketno'=>$claimdata[$j]->ticketno,
                'jobcardno'=>$claimdata[$j]->jobcardno,
@@ -179,13 +179,13 @@ class ClaimsController extends Controller
                'location'=>$claimdata[$j]->location,
               'date'=>$claimdata[$j]->date,
               'time'=>$claimdata[$j]->time,
-              'amount'=>$claimdata[$j]->amount          
+              'amount'=>$claimdata[$j]->amount
               ]
            );
           }
-    
-     
-    
+
+
+
 
         if($response){
             return response()->json([
@@ -199,7 +199,7 @@ class ClaimsController extends Controller
                 'message'   =>  'Could not prepare print preview.'
             ], 200);
         }
-  
+
     }
 
 
@@ -208,7 +208,7 @@ class ClaimsController extends Controller
 public function printPreview(Request $request){
         $claimsdata = ClaimstoPrint::all();  //retrieve all data
                         //->where('userid',Auth::user()->id);
- 
+
       return view('mileage.printpreview',compact('claimsdata'));
     }
 
@@ -222,7 +222,7 @@ $tickets = ClaimstoPrint::select("ticketno","jobcardno")
 foreach($tickets as $ticket){
     $response = Claims::where("ticketno",$ticket->ticketno)
                     ->update(
-       
+
                         [ 'claimno'=> $request->claimno,
                           'claimdate'=>Carbon::now()->format('Y-m-d'),
                           'claimstatus'=>"Claimed"
@@ -233,7 +233,7 @@ foreach($tickets as $ticket){
 if($response){
     $response = ClaimstoPrint::where("userid",Auth::user()->id)->delete();
 }
-   
+
     if($response){
         return response()->json([
             'success'=>true,
@@ -261,7 +261,7 @@ public function dashInfo(){
 
    $unupdatedclaims = DB::table("servicetickets")
                         ->select(
-                            DB::raw("COUNT(servicetickets.ticketno) as unupdatedclaims")  
+                            DB::raw("COUNT(servicetickets.ticketno) as unupdatedclaims")
                         )->rightjoin("claims","servicetickets.ticketno","=","claims.ticketno")
                         ->where("servicetickets.personnel",Auth::user()->id)
                         ->where("claims.claimamount","=","0")
@@ -270,7 +270,7 @@ public function dashInfo(){
                   array_push($dashinfo, $unupdatedclaims);
 
     $pendingtickets = DB::table("servicetickets")->select(
-                          DB::raw("COUNT(ticketno) as pendingtickets")  
+                          DB::raw("COUNT(ticketno) as pendingtickets")
                         )
                         ->where("status","pending")
                         ->where("personnel",Auth::user()->id)
