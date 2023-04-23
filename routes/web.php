@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -41,18 +42,48 @@ Route::middleware('auth')->group(function () {
     Route::post("/delete",[ClaimsController::class,'deleteClaim'])->name("claims.delete");
 
     Route::get('/dashboardinfo',[ClaimsController::class,'dashInfo'])->name('claims.dashinfo');
-    
-   
+
 
     Route::post('/printpreview',[ClaimsController::class,'tempstoreclaimPrint'])->name('claims.receiveprintdata');
 
     Route::get('/printpreview',[ClaimsController::class,'printPreview'])->name('claims.printout');
 
     Route::get('/resetprintclaims',[ClaimsController::class,'resetprintClaims'])->name('claims.resetprint');
-    
+
 
     Route::get('servicetickets',[ServiceticketsController::class,'index'])->name('service.tickets');
+    Route::get('showticket',[ServiceticketsController::class,'showTicket'])->name('service.showticket');
+
     Route::post('ticket/update',[ServiceticketsController::class,'updateTicket'])->name('ticket.update');
+
+    Route::get('ticket/checkfile',[ServiceticketsController::class,'checkFile'])->name('ticket.checkFile');
+
+    Route::get('ticket/downloadjobcard',[ServiceticketsController::class,'downloadFile'])->name('ticket.download');
+
 });
 
+// artisan command routes
+Route::get('/config-clear', function() {
+    Artisan::call('config:clear');
+   echo "config cleared";
+});
+Route::get('/view-clear', function() {
+    Artisan::call('view:clear');
+   echo "view cleared";
+});
+
+Route::get('/optimize-clear', function() {
+    Artisan::call('optimize:clear');
+      echo "optimized";
+});
+
+Route::get('/cache-clear', function() {
+    Artisan::call('cache:clear');
+    echo "cache cleared";
+});
+
+Route::get('/vendor-publish-mail', function() {
+    Artisan::call('vendor:publish --tag=laravel-mail');
+
+});
 require __DIR__.'/auth.php';

@@ -7,9 +7,12 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/parsley.css',
+
                 'resources/js/app.js',
+                'resources/js/script.js',
                 'resources/js/jquery.number.js',
                 'resources/js/parsley.js',
+
             ],
             refresh: true,
         }),

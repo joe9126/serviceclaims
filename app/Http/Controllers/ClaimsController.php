@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Claims;
+use App\Models\Servicetickets;
 use App\Models\ClaimstoPrint;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ use Carbon\Carbon;
 class ClaimsController extends Controller
 {
     public function index(){ //route: /ticketclaims
-        $ticketclaims =   $services = Claims::select(
+        $ticketclaims =  Servicetickets::select(
             "servicetickets.faultreported",
             "servicetickets.ticketno",
             "servicetickets.ticketdate",
@@ -30,43 +31,45 @@ class ClaimsController extends Controller
             "claims.claimamount",
             "claims.claimno"
             )
-        ->leftjoin("servicetickets","servicetickets.ticketno","=","claims.ticketno")
+        ->leftjoin("claims","servicetickets.ticketno","=","claims.ticketno")
         ->leftjoin("serviceentries","servicetickets.ticketno","=","serviceentries.ticketno")
         ->leftjoin("clients","servicetickets.client","=","clients.id")
         ->leftjoin("users","servicetickets.personnel","=","users.id")
         ->orderBy("servicetickets.ticketdate","desc")
-        ->where("servicetickets.personnel","=",Auth::user()->id)
-       ->paginate(10);
-
+        ->where("servicetickets.personnel","=",Auth::user()->id)->get();
+      // ->paginate(10);
+       // dump( $ticketclaims);
         return view('mileage.ticketclaims',['ticketclaims'=> $ticketclaims]);
     }
 
     public function showclaim(Request $request){
-        $claimdetails = Claims::select(
-            "claims.claimno",
-            "claims.psvfare",
-            "claims.accommodation",
-            "claims.petties",
-            "claims.dinner",
-            "claims.lunch",
-            "claims.km",
-            "claims.kmclaim",
-            "claims.laundry",
-            "claims.others",
-            "claims.claimstatus",
-            "claims.claimamount",
+        $claimdetails = Servicetickets::select(
             "servicetickets.ticketno",
             "servicetickets.ticketdate",
             "servicetickets.location",
-            "clients.clientname",
+            DB::raw('IFNULL(claims.claimno,"NA") as claimno'),
+            DB::raw('IFNULL(claims.psvfare,"0") as psvfare'),
+            DB::raw('IFNULL(claims.accommodation,"0") as accommodation'),
+            DB::raw('IFNULL(claims.petties,"0") as petties'),
+            DB::raw('IFNULL(claims.dinner,"0") as dinner'),
+            DB::raw('IFNULL(claims.lunch,"0") as lunch'),
+            DB::raw('IFNULL(claims.km,"0") as km'),
+            DB::raw('IFNULL(claims.kmclaim,"0") as kmclaim'),
+            DB::raw('IFNULL(claims.laundry,"0") as laundry'),
+            DB::raw('IFNULL(claims.others,"0") as others'),
+            "claims.others",
+            "claims.claimstatus",
+            DB::raw('IFNULL(claims.claimamount,"0") as claimamount'),
+           
+             "clients.clientname",
         )
-        ->leftjoin("servicetickets","servicetickets.ticketno","=","claims.ticketno")
+        ->leftjoin("claims","servicetickets.ticketno","=","claims.ticketno")
         ->leftjoin("clients","servicetickets.client","=","clients.id")
        ->leftjoin("users","servicetickets.personnel","=","users.id")
-       ->where("claims.ticketno","=",$request->ticketno)
-       ->where("users.id","=",Auth::id())
+       ->where("servicetickets.ticketno","=",$request->ticketno)
+       ->where("users.id","=",Auth::id()) //->toSql();
        ->get();
-
+       // dump($claimdetails);
           return $claimdetails;
     }
 
@@ -82,6 +85,7 @@ class ClaimsController extends Controller
                        'km'=>$request->km,
                        'kmclaim'=>floatval($request->kmclaim),
                        'claimamount'=>$request->claimtotal,
+                       'claimno'=>$request->claimno,
                        'claimstatus'=>"Unclaimed"]
        );
 
@@ -100,7 +104,7 @@ class ClaimsController extends Controller
     }
 
     public function getClaims(){ //route: /claims/print
-        $ticketclaims =   $services = Claims::select(
+        $ticketclaims = Servicetickets::select(
             "servicetickets.faultreported",
             "servicetickets.ticketno",
             "serviceentries.servicedate",
@@ -115,18 +119,18 @@ class ClaimsController extends Controller
             "claims.claimdate",
             "claims.claimamount"
             )
-        ->leftjoin("servicetickets","servicetickets.ticketno","=","claims.ticketno")
+        ->leftjoin("claims","servicetickets.ticketno","=","claims.ticketno")
         ->leftjoin("serviceentries","claims.ticketno","=","serviceentries.ticketno")
         ->leftjoin("clients","servicetickets.client","=","clients.id")
        ->leftjoin("users","servicetickets.personnel","=","users.id")
        ->where("users.id","=",Auth::id())
        ->where("claims.claimstatus","=","Unclaimed")
       ->where("claims.claimamount",">",0)
-       ->orderBy("servicetickets.ticketdate","desc")
-       ->paginate(10);
-
+       ->orderBy("servicetickets.ticketdate","desc")->get();
+      // ->paginate(10);
+           // dump([$ticketclaims]);
         return view('mileage.printclaims',['claims'=>$ticketclaims]);
-      //  echo $ticketclaims;
+       // echo $ticketclaims;
     }
 
     public function deleteClaim(Request $request){
@@ -159,10 +163,9 @@ class ClaimsController extends Controller
 
      $i = count($claimdata);
     
-      $response =  ClaimstoPrint::where('userid',Auth::user()->id)->delete();
+      ClaimstoPrint::where('userid',Auth::user()->id)->delete();
   
-
-    if($response){
+ 
         for( $j=0;$j<$i;$j++) {
             $response =  ClaimstoPrint::updateOrCreate(
                ['ticketno'=>$claimdata[$j]->ticketno],//update where or insert
@@ -180,7 +183,7 @@ class ClaimsController extends Controller
               ]
            );
           }
-    }
+    
      
     
 
@@ -254,19 +257,28 @@ public function dashInfo(){
                          ->where("servicetickets.personnel",Auth::user()->id)
                          ->groupBy("servicetickets.personnel")
                          ->first();
-    array_push($dashinfo, $claimstotal);
+           array_push($dashinfo, $claimstotal);
 
+   $unupdatedclaims = DB::table("servicetickets")
+                        ->select(
+                            DB::raw("COUNT(servicetickets.ticketno) as unupdatedclaims")  
+                        )->rightjoin("claims","servicetickets.ticketno","=","claims.ticketno")
+                        ->where("servicetickets.personnel",Auth::user()->id)
+                        ->where("claims.claimamount","=","0")
+                        ->groupBy("servicetickets.personnel")
+                        ->first();
+                  array_push($dashinfo, $unupdatedclaims);
 
     $pendingtickets = DB::table("servicetickets")->select(
-                          DB::raw("COUNT(servicetickets.ticketno) as pendingtickets")  
+                          DB::raw("COUNT(ticketno) as pendingtickets")  
                         )
                         ->where("status","pending")
                         ->where("personnel",Auth::user()->id)
-                        ->groupBy("servicetickets.personnel")
+                        ->groupBy("personnel")
                         ->first();
                         array_push($dashinfo, $pendingtickets);
 
-               
+              // dump($dashinfo);
                         return $dashinfo;
 }
 }

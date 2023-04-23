@@ -14,58 +14,63 @@
      <div class=" bg-light rounded border pt-5 pb-5 ">
 
         <div class="row justify-content-sm-center"  >
-            <div class="col-sm-12 pl-5 pr-5">
+            <div class="col-sm-12 pl-10 pr-10">
                 @empty(!$ticketclaims)
                 <div class="alert alert-info text-left " role="alert" id="alertmessage" style="display:block;">
-                    <span class="fw-bold">Click an unclaimed ticket below to update it</span>
+                    <span class="fw-bold">Click an unclaimed ticket below to update it. Click <a href="{{ route('claims.print') }}">
+                      <span class="text-primary fw-bold">here</span></a> to print your claims. </span>
                 </div>
                 @endempty
              <div class=" justify-content-center">
                 
-                <div class="table-responsive  overflow-hidden pl-15 pr-15 pt-2" >
+                <div class="table-responsive  overflow-hidden pt-2" >
                     <table class="table table-responsive table-striped table-bordered table-hover overflow-hidden mb-10" id="projectslist_table">
                         @empty(!$ticketclaims)
                         <thead class="thead-dark">
-                            <th style="width: 3%" class="text-center">No. </th>
-                            <th style="width:9%;">Ticket #</th>
-                            <th style="width:15%;">Client </th>
-                            <th style="width:20%;">Task </th>
-                            <th style="width:12%;">Location </th>
-                            <th style="width:10%;">Service Date </th>
-                            <th style="width:10%;">Time </th>
-                            <th style="width:10%;">Amount </th>
-                            <th class="align-items-center" style="width:10%;">Status </th>
+                            <th style="width: 3%; font-size:13px;" class="text-center">No. </th>
+                            <th style="width:9%; font-size:13px;">Ticket #</th>
+                            <th style="width:15%; font-size:13px;">Client </th>
+                            <th style="width:20%; font-size:13px;">Task </th>
+                            <th style="width:12%; font-size:13px;">Location </th>
+                            <th style="width:10%; font-size:13px;">Service Date </th>
+                            <th style="width:10%;font-size:13px;">Time </th>
+                            <th style="width:10%; font-size:13px;">Amount </th>
+                            <th class="align-items-center" style="width:10%; font-size:13px;">Status </th>
                         </thead>
                         @endempty
                         <tbody>
 
                               @forelse ($ticketclaims as $key=> $ticketclaim)
-                               <tr class="pl-10 pt-2 pb-10"  id={{$ticketclaim->ticketno}}>
-                                 <td class="text-center" >{{$key+1}}</td>
-                                 <td> {{$ticketclaim->ticketno}}</td>
-                                 <td> {{$ticketclaim->clientname}}</td>
-                                 <td> {{$ticketclaim->faultreported}}</td>
-                                 <td> {{$ticketclaim->location}}</td>
-                                 <td> 
+                               <tr class="pl-10 pt-2 pb-10 claiminfo"  id={{$ticketclaim->ticketno}}>
+                                 <td class="text-center claiminfo" >{{$key+1}}</td>
+                                 <td style="font-size:13px;"> {{$ticketclaim->ticketno}}</td>
+                                 <td style="font-size:13px;"> {{$ticketclaim->clientname}}</td>
+                                 <td style="font-size:13px;"> {{$ticketclaim->faultreported}}</td>
+                                 <td style="font-size:13px;"> {{$ticketclaim->location}}</td>
+                                 <td style="font-size:13px;"> 
                                     {{\Carbon\Carbon::parse($ticketclaim->ticketdate)->format('d M,Y')}}
                                  </td>
-                                 <td>
+                                 <td style="font-size:13px;">
                                   {{ Carbon\Carbon::parse($ticketclaim->start_time)->format('H:i') }} to
                                   {{ Carbon\Carbon::parse($ticketclaim->end_time)->format('H:i') }} 
                                 
                               </td>
-                                 <td>
+                                 <td style="font-size:13px;">
                                     @money($ticketclaim->claimamount)
                                  </td>
-                                 <td class="text-center">
+                                 <td class="text-center" style="font-size:13px;">
                                     <span class="display">
                                         @if($ticketclaim->claimstatus=="Unclaimed")
                                         <a href="#"><div class="d-inline p-2 bg-danger text-white rounded">
                                             {{$ticketclaim->claimstatus}}
                                         </div>
-                                        @else
+                                        @elseif($ticketclaim->claimstatus=="Claimed")
                                         <a href="#"><div class="d-inline p-2 bg-success text-white rounded">
                                             {{$ticketclaim->claimstatus}}
+                                        </div>
+                                         @else
+                                        <a href="#"><div class="d-inline p-2 bg-danger text-white rounded">
+                                            Unclaimed
                                         </div>
                                         @endif
                                     </a>
@@ -104,18 +109,18 @@
         
 
         <div class="row bg-light rounded border pt-3 pb-5 justify-content-center">
-            <div class="card ml-10 mr-10 pl-10 pr-10 pt-2 pb-5 col-sm-6">
+            <div class="card ml-10 mr-10 pl-10 pr-10 pt-2 pb-2 col-sm-8">
                 <div class="alert alert-success text-center" role="alert" id="alertmessage2">
                     <span class="message fw-bold"></span>
                 </div>
 
                 <div class="card-body row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         <h4 class="card-title fw-bold">
                             <span id="cardtitle" class="text-primary"></span>
                         </h4>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <h2 class="card-title">
                             <span id="cardtitle-claimamount" class="text-primary fw-bold"></span>
                     </div>
@@ -144,7 +149,7 @@
                                   <label class="input-group-text" for="inputGroupSelect01">Travel Mode *</label>
                                 </div>
                                 <select class="custom-select" id="travelmode" required="" data-parsley-required-message="You must select at least one option.">
-                                  <option value="">Choose...</option>
+                                  <option selected="selected" value="">Choose...</option>
                                   <option value="Private">Private</option>
                                   <option value="Public">Public</option>
                                   <option value="Company Provided">Company Provided</option>
@@ -157,20 +162,20 @@
 
                           <label for="kmtravel" class="col-sm-2 col-form-label kmtravel calc">Travel (km)</label>
                           <div class="col-sm-4 kmtravel" >
-                            <input type="number" id="kmtravel"class="form-control kmtravel" placeholder="0"
+                            <input type="number" id="kmtravel"class="form-control kmtravel" value="0"
                             data-parsley-trigger="keyup" data-parsley-type='number'required="" name="km">
                         </div>
 
                         <label for="kmclaim" class="col-sm-2 col-form-label kmtravel">Km Claim </label>
                         <div class="col-sm-4">
-                          <input type="text" id="kmclaim" readonly class="form-control calc kmtravel" placeholder="0.00" name="kmclaim">
+                          <input type="text" id="kmclaim" readonly class="form-control calc kmtravel" value="0"  name="kmclaim">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="busfare" class="col-sm-2 col-form-label busfare">Fare *</label>
                         <div class="col-sm-4">
-                          <input type="number" id="busfare"class="form-control calc busfare" placeholder="0.00"
+                          <input type="number" id="busfare"class="form-control busfare calc"  value="0"
                             data-parsley-trigger="keyup" data-parsley-type='number'required="" name="psvfare">
                         </div>
                       </div>
@@ -178,7 +183,7 @@
                       <div class="form-group row">
                         <label for="companyprovided" class="col-sm-2 col-form-label companyprovided">Claim</label>
                         <div class="col-sm-4">
-                          <input type="number" id="companyprovided"class="form-control companyprovided" placeholder="0.00"
+                          <input type="number" id="companyprovided"class="form-control companyprovided" 
                              data-parsley-type='number' value="0.00"name="companyprovided" readonly>
                         </div>
                       </div>
@@ -186,13 +191,13 @@
                       <div class="form-group row mb-3 mt-3">
                         <label for="lunch" class="col-sm-2 col-form-label">Lunch</label>
                          <div class="col-sm-4">
-                            <input type="number" id="lunch"class="form-control calc" placeholder="0.00"
+                            <input type="number" id="lunch"class="form-control calc" value="0.00"
                                     data-parsley-trigger="keyup" data-parsley-type='number'required="" name="lunch">
                           </div>
 
                          <label for="dinner" class="col-sm-2 col-form-label">Dinner </label>
                          <div class="col-sm-4">
-                           <input type="number" id="dinner"class="form-control calc" placeholder="0.00"
+                           <input type="number" id="dinner"class="form-control calc" value="0.00"
                               data-parsley-trigger="keyup" data-parsley-type='number'required="" name="dinner">
                          </div>
 
@@ -202,13 +207,13 @@
                      <div class="form-group row mb-3">
                         <label for="petties" class="col-sm-2 col-form-label">Petties </label>
                         <div class="col-sm-4">
-                          <input type="number" id="petties"class="form-control calc" placeholder="0.00"
+                          <input type="number" id="petties"class="form-control calc" value="0.00"
                               data-parsley-trigger="keyup" data-parsley-type='number'required="" name="petties">
                         </div>
 
                         <label for="accommodation" class="col-sm-3 col-form-label">Accommodation</label>
                         <div class="col-sm-3">
-                          <input type="number" id="accommodation"class="form-control calc" placeholder="0.00"
+                          <input type="number" id="accommodation"class="form-control calc" value="0.00"
                              data-parsley-trigger="keyup" data-parsley-type='number'required="" name="accommodation">
                         </div>
 
@@ -242,7 +247,7 @@
                 </button>
                 </div>
                 <div class="col-sm-8">
-                  <div class="alert alert-info text-left" role="alert" id="alertmessage" style="display:block;">
+                  <div class="alert alert-info text-center" role="alert" id="alertmessage" style="display:block;">
                     Click <a href="{{ route('claims.print') }}">
                       <span class="text-primary fw-bold">here</span></a> to print your claims. </span>
                 </div>

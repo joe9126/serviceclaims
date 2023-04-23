@@ -16,6 +16,7 @@
                 <div class="card-body">
                   <h2 class="card-title fw-bold fs-2 text-light text-center">Mileage Claims</h2>
                   <p class="card-text text-light fs-5 text-center">Create or update your mileage claims</p>
+                  <p class="display-6 text-light text-center mt-3" id="unupdatedclaims"></p>
                 </div>
               </div>
             </a>

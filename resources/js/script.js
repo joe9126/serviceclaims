@@ -6,12 +6,9 @@ $.ajaxSetup({
 
 
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
 
 $(document).ready(function(){
-    $("#projectslist_table tbody>tr>td").click(function(){
+    $("#projectslist_table").on("click","tbody tr",function(){
 
         var ticketno = $(this).closest('tr').attr('id');
            // console.log("ticket no is: "+ticketno);
@@ -34,7 +31,8 @@ $("#showlist").click(function(){
 
 
 function  getClaimdetails(ticketno){
-    $("#claimupdateform").trigger("reset");
+  $("#claimupdateform").trigger("reset");
+
     $.ajax({
         type: "get",
         url: "ticketclaims/showclaim",
@@ -65,6 +63,8 @@ function  getClaimdetails(ticketno){
       });
 
 }
+
+//claim values input
 $(document).ready(function(){
     $(".calc").keyup(function(){
        // $('.calc').number( true );
@@ -80,7 +80,7 @@ $(document).ready(function(){
 
        $("#kmtravel").keyup(function(){
         var distance = parseFloat($("#kmtravel").val());
-        
+
         var distclaim = 0; var rateperkmfirst20km = 40; var rateperkmforextrakm = 20;
         if(distance>20){
             distance = distance - 20;
@@ -98,18 +98,20 @@ $(document).ready(function(){
         +parseFloat( $("#kmclaim").val());
       $("#cardtitle-claimamount").text("| Kes. "+$.number(claimtotal,2));
        });
-           
-      
+
+
 });
+
+
 
 // travel mode selection
 $("#travelmode").on("change",function(){
     if($(this).val()=="Private"){
         $(".kmtravel").css("display","block");
-        
-        $(".busfare").css("display","none"); 
+
+        $(".busfare").css("display","none");
         $(".companyprovided").css("display","none");
-      
+
     }else if($(this).val()=="Public"){
         $(".companyprovided").css("display","none");
         $(".kmtravel").css("display","none");
@@ -125,15 +127,16 @@ $("#travelmode").on("change",function(){
 // claim update form submission
 $("#claimupdateform").on("submit",function(event){
     event.preventDefault();
-    
+
     var claimno = $("#claimno").val();
-    if(claimno !="NA"){
-        $(".message").text("This ticket is already claimed. Contact admin.");
+    console.log("claim no: "+claimno);
+    if(claimno !=="NA"){
+        $(".message").text("This ticket is already claimed. Contact admin now.");
         $("#alertmessage2").removeClass("alert-success");
         $("#alertmessage2").addClass("alert-danger");
         $("#alertmessage2").css("display","block").fadeOut(3500);;
     }
-   else{ 
+   else{
     $("#claimupdateform").parsley();
     if($("#claimupdateform").parsley().isValid()){
     //alert("form submited");
@@ -173,6 +176,7 @@ if( window.FormData !== undefined ) {
 
 
             }else{
+                $("#claimsubmit").replaceWith(originalState);
                 $(".message").text(response.message);
                 $("#alertmessage2").removeClass("alert-success");
                 $("#alertmessage2").addClass("alert-danger");
@@ -180,7 +184,7 @@ if( window.FormData !== undefined ) {
             }
         },
         error: function(error) {
-            $(".message").text("Claim was not updated");
+            $(".message").text("An error occured. Claim was not updated");
             $("#alertmessage2").removeClass("alert-success");
             $("#alertmessage2").addClass("alert-danger");
             $("#alertmessage2").css("display","block").fadeOut(3000);;
@@ -237,13 +241,6 @@ $("#deleteclaimbtn").click(function(){
         $("#alertmessage").css("display","block").fadeOut(3000);
     }
     else{
-       /* $("#claimprinttable").find('tr').each(function(){
-            //alert("checked");
-            var row = $(this);
-            if(row.find('input[type="checkbox"]').is('checked')){
-                alert("checked");
-            }
-        });*/
 
         $("#claimprinttable >tbody>tr").find('input[name="flexCheckDefault"]:checked').each(function(){
 
@@ -311,9 +308,9 @@ $("#printclaimpreviewbtn").click(function(event){
     }
     else{
 
-       var ticketno, jobcardno, billingrefno, client, task, location,date,time,amount, formattedamount=null; 
+       var ticketno, jobcardno, billingrefno, client, task, location,date,time,amount, formattedamount=null;
        var claimdata = {};var claimlist =[];var rows = $("#claimprinttable >tbody >tr").length;
-       
+
        var formdata = new FormData();
 
        for(var t=1;t<=rows;t++){
@@ -322,11 +319,11 @@ $("#printclaimpreviewbtn").click(function(event){
           time = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(5)").text();
           jobcardno = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(6)").text();
           billingrefno = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(7)").text();
-         
+
           client = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(8)").text();
           task = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(9)").text();
           location = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(10)").text();
-          
+
           amount = $("#claimprinttable tbody tr:nth-child("+t+")").find("td:nth-child(11)").text().replace("KES. ","");
           amount = parseFloat(amount.replace(",",""));
           claimdata = {
@@ -343,9 +340,9 @@ $("#printclaimpreviewbtn").click(function(event){
           claimlist.push(claimdata);
          }
 
-     
+
        formdata.append('claimsdata',JSON.stringify(claimlist));
-       console.log(claimlist);
+       //console.log(claimlist);
        $.ajax({
             url:"/printpreview",
             method:"post",
@@ -361,16 +358,17 @@ $("#printclaimpreviewbtn").click(function(event){
 
                     setTimeout(function(){
                       window.open("/printpreview", "Print Claims", "width=1200,height=900,scrollbars=yes");
-                          
+
                    }, 2000);
                 }
-    
+
             }
         });
-       
+
     }
 });
 
+//generate claim number
 $(document).ready(function(){
     var pathname = window.location.pathname;
     if(pathname=="/printpreview"){
@@ -389,7 +387,7 @@ $(document).ready(function(){
 $("#exitbtn").click(function(){
     $("#showprintout").css("display", "none").fadeOut(2000);
        $("#showclaimlist").fadeIn(2000);
-       $("#claimupdateform")[0].reset();
+      // $("#claimupdateform")[0].reset();
 });
 
 // CLAIM PRINT BUTTON
@@ -431,201 +429,263 @@ $("#printclaims").click(function(){
 
 });
 
-/*  SEARCH SERVICE TICKETS TABLE */
-$(document).ready(function(){
-
-    //$('#serviceticketstable table tbody tr').hide();
-/*
-    $.ajax({
-        url:"servicetickets",
-        method:"get",
-        dataType:"json",
-        success:function(data){
-            $("#csrtable").DataTable({
-                processing: true,
-                dom:'Bfrtip',
-                buttons:[
-                         {
-                            extend: 'excelHtml5',
-                            title: 'Product Register'
-                        },
-                            {
-                             extend: 'csvHtml5',
-                            title: 'Product Register'
-                            },
-                            {
-                             extend: 'copyHtml5',
-                             title: 'Product Register'
-                            },
-                         {
-                             extend: 'pdfHtml5',
-                             title: 'Product Register'
-                            }
-                   // 'copy','csv','excel','pdf','print'
-                        ],
-                        data: data,
-                        createdRow: function(row,data,index){},
-                        columns:[
-                            {mRender:function(data,type,row){
-                                var td =
-                                '<div class="row pt-2">'+data.ticketno+'</div>                                ';
-                            }}
-                        ]
-            });
-        }
-    });
-*/
-
-});
 
 
 
 $(document).ready(function(){
     var pathname = window.location.pathname;
     if(pathname=="/servicetickets"){
-   
-      $("#serviceticketstable").DataTable();
+     $("#serviceticketstable").DataTable();
     }
 
     if(pathname =="/dashboard"){
+        console.log("path: "+pathname);
         $.ajax({
             url:"dashboardinfo",
             method:"get",
             dataType:"json",
             success:function(data){
-                console.log(data);
+               // console.log(data);
                 $.each(data, function(index,val){
-                    console.log(index);
+
                   //  console.log("claimanount "+val.totalclaim);
-                    $("#claimtotal").text("KES. "+$.    number(data[0].totalclaim));
-                    $("#pendingtickets").text($.number(data[1].pendingtickets,0)+" Tickets");
+                  if(data[0] ==null){
+                       $("#claimtotal").text("KES. 0.00");
+                  }else{
+                       $("#claimtotal").text("KES. "+$.    number(data[0].totalclaim));
+                  }
+                  if(data[1] !==null){
+                    $("#unupdatedclaims").text($.number(data[1].unupdatedclaims,0)+" Tickets");
+                  }
+                  if(data[2] !==null){
+                    $("#pendingtickets").text($.number(data[2].pendingtickets,0)+" Tickets");
+                  }
                 });
             }
         });
     }
 });
-  
 
-$("#datepicker").datepicker({ 
-    autoclose: true, 
-    todayHighlight: true,
-}).datepicker('update', new Date());
 
-$('#start_time').datetimepicker({
-    format: 'hh:mm:ss a',
-    locale: 'ru'
+$(function(){
+    $(".datepicker").datetimepicker({
+        value: '',
+        rtl: false,
+         format: 'd-m-Y H:i',
+        formatTime: 'H:i',
+       formatDate: 'd-m-Y',
+       step: 30,
+       monthChangeSpinner: true,
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        closeOnWithoutClick: true,
+         closeOnInputClick: true,
+         openOnFocus: true,
+         timepicker: true,
+         datepicker: true,
+
+    });
+  });
+
+
+
+//display service ticket table
+
+$("#exitupdate").on("click", function(event){
+    event.preventDefault();
+    $("#ticketupdate").fadeOut();
+    $("#ticketupdate").css("display", "none");
+
+   $("#ticketlist").fadeIn(2000);
+   document.location.reload();
+
+});
+
+//serviceticket table row click
+
+$("#serviceticketstable").on("click","tbody tr",function(){
+    $("#ticketlist").fadeOut();
+    $("#ticketlist").css("display", "none");
+   $("#ticketupdate").fadeIn(1000);
+ var ticketno = $(this).closest('tr').attr('id');
+ //console.log("ticketno"+ticketno);
+$.ajax({
+    url:"showticket",
+    type:"get",
+    data:{"ticketno":ticketno},
+    dataType:"json",
+    beforeSend:function(){
+
+    },
+    success:function(data){
+       // console.log(data);
+       var ticketno = $("#ticketno").text(data[0].ticketno);
+       var cardtitle = "Ticket # "+data[0].ticketno+" | "+data[0].clientname+" | "+moment(data[0].ticketdate).format("ddd d MMM, YYYY");
+       $("#cardtitle").text(cardtitle);
+       $("#jobcardno").val(data[0].jobcardno);
+       $("#site").val(data[0].site);
+       if(data[0].start_time !="no update"){
+        $("#startdatetime").val(data[0].start_time);
+       }
+       if(data[0].end_time !="no update"){
+        $("#enddatetime").val(data[0].end_time);
+       }
+
+       $("#equipmodel").val(data[0].model);
+       $("#serialno").val(data[0].serialno);
+       $("#findings").val(data[0].findings);
+       $("#action_taken").val(data[0].action_taken);
+       $("#recommendations").val(data[0].recommendations);
+       if(data[0].attachment !="no file found"){
+        $(".filelist").css("display","block");
+        $("#filename").text(data[0].attachment);
+        var pattern = /^((http|https|ftp):\/\/)/;
+        if(pattern.test(data[0].attachment)) {
+            $("#filename").attr("href", data[0].attachment);
+        }
+       }
+       else{
+
+       }
+
+
+    },error:function(error){
+        console.log("Error sending data.");
+        console.log(error);
+    }
+});
+});
+
+//service ticket update form submit
+$(document).on("submit","#ticketupdateform",function(event){
+    event.preventDefault();
+    $("#ticketupdateform").parsley();
+    var starttime = new Date($("#startdatetime").val().replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
+    var endtime = new Date($("#enddatetime").val().replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
+
+
+        if($("#ticketupdateform").parsley().isValid()){
+            if(!$('#jobcardupload').val() && !$("#filename").text()){
+                $("#alertmessage2").focus();
+                $(".message").text("Attach the job card.");
+                $("#alertmessage2").removeClass("alert-success");
+                $("#alertmessage2").addClass("alert-danger");
+                $("#alertmessage2").css("display","block").fadeOut(10000);
+                $("#alertmessage2")[0].scrollIntoView();
+            }
+            else if(moment(endtime).isBefore(moment(starttime))){
+                //alert("error occured");
+                $("#alertmessage2").focus();
+                $(".message").text("Start time should be earier than end time.");
+                $("#alertmessage2").removeClass("alert-success");
+                $("#alertmessage2").addClass("alert-danger");
+                $("#alertmessage2").css("display","block").fadeOut(10000);
+                $("#alertmessage2")[0].scrollIntoView();
+            }else{
+               // alert("prepping form");
+            var formdata = new FormData();
+
+            formdata.append('ticketno', $("#ticketno").text());
+            formdata.append('jobcardno', $("#jobcardno").val());
+            formdata.append('city', $("#site").val());
+            formdata.append('start_time', moment(starttime).format("YYYY-MM-DD HH:mm:ss"));
+            formdata.append('end_time', moment(endtime).format("YYYY-MM-DD HH:mm:ss"));
+            formdata.append('model', $("#equipmodel").val());
+            formdata.append('serialno',  $("#serialno").val());
+            formdata.append('findings', $("#findings").val());
+            formdata.append('action_taken', $("#action_taken").val());
+            formdata.append('recommendations', $("#recommendations").val());
+            formdata.append('status', $("#ticketstatus option:selected").val());
+
+            var attachment = $("#jobcardupload")[0].files[0];
+            var fileInput = $.trim($("#jobcardupload").val());
+            var filename = $('#jobcardupload').val().split('\\').pop();
+            filename = $("#ticketno").text()+"- "+$("#jobcardno").val()+"-"+filename;
+                console.log(filename);
+
+            if(filename!=null && fileInput !=='' && fileInput){
+                formdata.append('attachment', attachment);
+               formdata.append('filename',filename);
+               console.log("file attached");
+            }else{
+                filename = $("#filename").text();
+                formdata.append('filename',filename);
+            }
+            var originalState = $("#submitupdate").clone();
+           // console.log(formdata);
+            $.ajax({
+                url:"ticket/update",
+                type:"post",
+                data:formdata,
+                dataType:"json",
+                processData: false,
+                contentType: false,
+                beforeSend:function(){
+                    var spinner = '<div class="spinner-border text-light fs-5" role="status"><span class="visually-hidden"> Loading...</span></div>';
+                     $("#submitupdate").html("Updating "+spinner);
+                },
+                success:function(response){
+                    $("#submitupdate").replaceWith(originalState);
+                    if(response.success ==true){
+
+                        $(".message").text(response.message);
+                        $("#alertmessage2").removeClass("alert-danger");
+                        $("#alertmessage2").addClass("alert-success");
+                        $("#alertmessage2").css("display","block").fadeOut(5000);;
+                        $(".top-row")[0].scrollIntoView();
+
+                        $('#ticketupdateform')[0].reset();
+                        $('#ticketupdateform').parsley().reset();
+
+
+                    }else{
+
+                        $("#submitupdate").replaceWith(originalState);
+                        $(".message").text(response.message);
+                        $("#alertmessage2").removeClass("alert-success");
+                        $("#alertmessage2").addClass("alert-danger");
+                        $("#alertmessage2").css("display","block").fadeOut(5000);
+                        $("#alertmessage2")[0].scrollIntoView();
+                    }
+                },
+                error:function(error){
+                    $("#submitupdate").replaceWith(originalState);
+                    console.log("error occured");
+                }
+            });
+
+            }
+
+    }
+});
+
+//download attachment
+$("#downloadjobcardbtn").on("click",function(event){
+    event.preventDefault();
+    var filename = $("#filename").text();
+    $.ajax({
+        url:"ticket/checkfile?filename="+filename,
+        type:"get",
+        success:function(response){
+            if(response.success ==true){
+                window.location.href = "ticket/downloadjobcard?filename="+filename;
+                $(".message").text(response.message);
+                $("#alertmessage2").removeClass("alert-danger");
+                $("#alertmessage2").addClass("alert-success");
+                $("#alertmessage2").css("display","block").fadeOut(5000);;
+                $(".top-row")[0].scrollIntoView();
+            }
+          else{
+            $(".message").text(response.message);
+            $("#alertmessage2").removeClass("alert-success");
+            $("#alertmessage2").addClass("alert-danger");
+            $("#alertmessage2").css("display","block").fadeOut(5000);;
+            $(".top-row")[0].scrollIntoView();
+          }
+        }
+    });
+
 });
 
 $("#projectslist_table").DataTable();
 $("#claimprinttable").DataTable();
-
- /*
-
-function getServicetickets(){
-    $.ajax({
-        url:"gettickets",
-        method:"get",
-        dataType:"json",
-        success:function(data){
-            console.log(data);
-          var i=1;
-           $("#serviceticketstable").DataTable({
-               processing: true,
-                dom:'Bfrtip',
-                buttons:[
-                         {
-                            extend: 'excelHtml5',
-                            title: 'Product Register'
-                        },
-                            {
-                             extend: 'csvHtml5',
-                            title: 'Product Register'
-                            },
-                            {
-                             extend: 'copyHtml5',
-                             title: 'Product Register'
-                            },
-                         {
-                             extend: 'pdfHtml5',
-                             title: 'Product Register'
-                            }
-                   // 'copy','csv','excel','pdf','print'
-                 ],
-                data: data,
-                  createdRow: function(row,data,index){
-                   
-                     $(row).attr('id',data.id).find('td').eq(1).attr('class','td-no');
-                     $(row).attr('id',data.id).find('td').eq(2).attr('class','td-ticketno');
-                     $(row).attr('id',data.id).find('td').eq(3).attr('class','td-ticketdate');
-                     $(row).attr('id',data.id).find('td').eq(4).attr('class','td-client');
-                     $(row).attr('id',data.id).find('td').eq(5).attr('class','td-location');
-                     $(row).attr('id',data.id).find('td').eq(6).attr('class','td-fault');
-                     $(row).attr('id',data.id).find('td').eq(7).attr('class','td-urgency');                  
-                     $(row).attr('id',data.id).find('td').eq(10).attr('class','td-dayspending');
-                     $(row).attr('id',data.id).find('td').eq(9).attr('class','td-status');
-                              
-                    
-                 },
-                  columns:[
-                     
-                      {mRender:function(){
-                             return i++;
-                         }},
-                        {data:"ticketno"},
-                     
-                       {mRender:function(data,type,row){
-                          return moment(row.ticketdate).format("ddd Do MMM,YYYY");
-                       }},
-                       {data:"clientname"},
-                       {data:"location"},
-                       {data:"faultreported"},
-                       {data:"urgency"},
-                     
-                         {mRender:function(data,type,row){
-                          var diff; 
-                          var today = new Date(); var days=""; var daycount="Day";
-                           var ticketdate = row.ticketdate;
-                           var millisecBtn = today.getTime() - new Date(ticketdate).getTime();
-                           var millisecondsPerDay = 1000 * 60 * 60 * 24;
-
-                              if(row.status !=="Closed"){
-                                  diff = parseInt(millisecBtn/millisecondsPerDay);
-                                  if(diff>1){daycount= "Days"}
-                                  days = diff+" "+daycount;
-                              }else{
-                                days ="N/A";
-                              }
-                              return days;
-                         }},
-                         {mRender:function(data,type,row){
-                            var status ="";
-                                  if(row.status=="Closed"){
-                                      status = '<i class="fa fa-circle text-success text-center" aria-hidden="true" style="font-size: 14px;">&nbsp;<span style="font-size:12px;"></span></i>';
-                                    
-                                  }else  if(row.status=="Awaiting Parts"){
-                                      status = '<i class="fa fa-circle text-warning text-center" aria-hidden="true" style="font-size: 14px;">&nbsp;<span style="font-size:12px;"></span></i>';
-                                   } 
-                                   else if(row.status=="No Access"){
-                                      status = '<i class="fa fa-circle text-secondary text-center" aria-hidden="true" style="font-size: 14px;">&nbsp;<span style="font-size:12px;"></span></i>';
-                                   }
-                                   else{
-                                      status = '<i class="fa fa-circle text-danger text-center" aria-hidden="true" style="font-size: 14px;">&nbsp;<span style="font-size:12px;"></span></i>';
-                                  }
-                                  return status;
-                             }},
-                      
-                                          
-                    
-                 ],
-                   pageLength:10,
-                   bLengthChange:false,
-                   bAutoWidth:false,
-                   autowidth:false,
-                   bDestroy: true,
-           });
-           $('.dataTables_length').addClass('bs-select');
-        }
-    });
-}
-
-*/

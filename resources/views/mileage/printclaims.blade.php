@@ -7,11 +7,11 @@
         <p class="text-center text-uppercase text-light fw-bold fs-1">Print Claims</p>
      </div>
 
-     <div class=" bg-light rounded border pt-5 pb-5 ">
+     <div class=" bg-light rounded border pt-5 pb-5 pl-10 pr-10">
       <div id="showclaimlist">
        <div class="row grid-container ">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
+        
+        <div class="col-sm-12">
             @empty(!$claims)
             <div class="alert alert-info text-left" role="alert" id="alertmessage2" style="display:block;">
                 <span class="fw-bold">Select a claim to remove it from the list or delete. Click <a href="{{ route('claims.mileage') }}">
@@ -67,15 +67,15 @@
                             @empty($claims) <!-- if data found -->
                             @else
                              <thead class="thead-dark ">
-                                <th style="width: 3%" class="align-items-center"> </th>
-                                <th style="width: 3%">No</th>
+                                <th style="width: 3%; font-size:13px;" class="align-items-center"> </th>
+                                <th style="width: 3%;font-size:13px;">No</th>
                                 <th style="width: 8%; display:none;">Ticket#</th>
-                                <th style="width: 8%">Date</th>
-                                <th style="width: 10%">Time</th>
-                                <th style="width: 10%">Job Card#</th>
-                                <th style="width: 12%">Bill Ref#</th>
-                                <th style="width: 18%">Client</th>
-                                <th style="width: 20%">Task</th>
+                                <th style="width: 8%; font-size:13px;">Date</th>
+                                <th style="width: 8%; font-size:13px;">Time</th>
+                                <th style="width: 7%; font-size:13px;">Job Card#</th>
+                                <th style="width: 12%; font-size:13px;">Bill Ref#</th>
+                                <th style="width: 18%; font-size:13px;">Client</th>
+                                <th style="width: 20%; font-size:13px;">Task</th>
                                 <th>Location</th>
                                 
                                 <th style="width: 10%">Amount</th>
@@ -90,20 +90,31 @@
                                         <td style="text-align: center;">{{ $key+1 }}</td>
                                         <td style="display:none;">{{ $claim->ticketno }}</td>
                                         <td>
-                                            {{\Carbon\Carbon::parse($claim->ticketdate)->format('d M,Y')}}
+                                            @if($claim->servicedate!=null)
+                                                {{\Carbon\Carbon::parse($claim->servicedate)->format('d M,Y')}}
+                                            @else
+                                                Not updated
+                                            @endif
                                         </td>
-                                        <td>
+                                        <td> @if($claim->start_time!=null && $claim->end_time!=null )
                                             {{ Carbon\Carbon::parse($claim->start_time)->format('H:i') }} to
                                             {{ Carbon\Carbon::parse($claim->end_time)->format('H:i') }} 
-                                          
+                                          @else
+                                             Not updated
+                                          @endif
                                         </td>
-                                        <td>{{ $claim->jobcardno }}</td>
+                                        <td> @if($claim->jobcardno!=null)
+                                            {{ $claim->jobcardno }}
+                                            @else
+                                              Not updated
+                                            @endif
+                                        </td>
                                         <td>{{ $claim->billingrefno }}</td>
                                         <td>{{ $claim->clientname }}</td>
-                                        <td>{{ $claim->faultreported }}</td>
+                                        <td style="font-size:13px;">{{ $claim->faultreported }}</td>
                                         <td>{{ $claim->location }}</td>
                                        
-                                        <td>@money($claim->claimamount)</td>
+                                        <td class="text-center">@money($claim->claimamount)</td>
                                     </tr>
 
                                 @empty
@@ -124,7 +135,7 @@
                 </div>
             </div>
         </div>
-      <div class="col-sm-1"></div>
+     
 
      </div>
      </div>
