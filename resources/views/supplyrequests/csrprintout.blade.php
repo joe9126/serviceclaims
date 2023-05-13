@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('title','Supply Request')
-
+@section('navigation')
+@stop
 @section('content')
 
 
 
-<div id="invoice" class="bg-white"> 
+<div id="invoice" class="bg-white">
     <div class="toolbar hidden-print">
 
         <div class="text-right">
@@ -101,7 +102,7 @@
 
                     <div class="col-sm-12">
 
-                        <span class="var_text2 fw-bold">ORDER DESCRIPTION:</span> 
+                        <span class="var_text2 fw-bold">ORDER DESCRIPTION:</span>
 
                         @foreach($csrdata as $data)
 
@@ -189,19 +190,19 @@
 
                         </tr>
 
-                       
+
 
                     </tbody>
 
-                    <tfoot class="thead-dark">                      
+                    <tfoot class="thead-dark">
 
-                       
+
 
                     </tfoot>
 
                 </table>
 
-                
+
 
                 <div class="notices">
 
@@ -213,7 +214,7 @@
 
             </main>
 
-            <footer class="mt-5 pl-3"> 
+            <footer class="mt-5 pl-3">
                 <small>CSR was created on a computer and is valid without the signature and seal. </small>
             </footer>
 
@@ -243,7 +244,7 @@
 
         <div class="col-lg-6">
 
-            
+
 
         </div>
 
@@ -303,7 +304,7 @@
 
              @foreach($csrdata as $data)
 
-                <span class="var_text">{{$data->ponumber }}</span>              
+                <span class="var_text">{{$data->ponumber }}</span>
 
             @endforeach
 
@@ -347,7 +348,7 @@
 
         <div class="col-lg-12">
 
-             <span class="h1">ORDER DESCRIPTION:</span> 
+             <span class="h1">ORDER DESCRIPTION:</span>
 
              @foreach($csrdata as $data)
 
@@ -389,7 +390,7 @@
 
                         <th>Total</th>
 
-                        
+
 
                     </tr>
 
@@ -421,7 +422,7 @@
 
         <div class="col-lg-6">
 
-            <span class="maintext"> Sales Person: </span> 
+            <span class="maintext"> Sales Person: </span>
 
             @foreach($csrdata as $data)
 
@@ -433,7 +434,7 @@
 
         <div class="col-lg-6">
 
-             <span class="maintext"> Printed By: </span> 
+             <span class="maintext"> Printed By: </span>
 
              <span class="var_text">{{Auth::user()->name }}</span>
 

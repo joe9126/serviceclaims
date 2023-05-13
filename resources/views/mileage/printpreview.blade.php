@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section("title","Print Claims")
+@section('navigation')
+@stop
 @section('content')
- 
+
      <!-- PRINT OUT SECTION -->
      <div id="showprintout">
         <div class="row mb-3 toolbar hidden-print">
@@ -9,15 +11,15 @@
                 <button class="btn btn-primary mr-3" id="printclaims"><i class="fa fa-print"></i> Print</button>
                 <button class="btn btn-danger" id="exitbtn"><i class="fa fa-arrow-left"></i> Exit</button>
             </div>
-          
+
         </div>
 
         <div class="row  pt-3 pb-3 mt-3 mb-3">
          <div class="col-sm-1"></div>
- 
+
          <div class="col-sm-10  ">
-            
- 
+
+
           <div class="printout justify-content-center pl-3 pr-3 pt-2 page" id="printpage">
             <header>
                <div class="row  mb-2 mt-2">
@@ -44,13 +46,13 @@
                                      <td class="fw-bold">ID:</td><td>{{ Auth::user()->idnumber }}</td>
                                  </tr>
                                  <tr>
-                                    
+
                                      <td class="fw-bold">Email:</td><td>{{ Auth::user()->email }}</td>
                                      <td class="fw-bold">Phone:</td><td>{{ Auth::user()->phone }}</td>
                                  </tr>
                             </tbody>
                          </table>
- 
+
                      </div>
                      <div class="col-sm-4">
                         <td class="fw-bold">Claim No: </td><td><span id="claimno"></span></td>
@@ -58,7 +60,7 @@
                      <div class="col-sm-4">
                          <p class="fw-bold fs-6 text-end"> Claimed on {{ \Carbon\Carbon::now()->format("d M,Y") }}</p>
                      </div>
- 
+
                  </div>
                  <div class="row ">
                     <div class="col-sm-12">
@@ -70,9 +72,9 @@
                                   <th style="width: 12%;font-size:10px;">Bill Ref#</th>
                                   <th style="width: 8%; font-size:10px;">Date</th>
                                   <th style="width: 15%; font-size:10px;">Client</th>
-                                 <th style="width: 15%; font-size:10px;">Site</th> 
-                                 <th style="width: 5%; font-size:10px;">Km</th>  
-                                 <th style="width: 8%;font-size:10px;">Fare</th> 
+                                 <th style="width: 15%; font-size:10px;">Site</th>
+                                 <th style="width: 5%; font-size:10px;">Km</th>
+                                 <th style="width: 8%;font-size:10px;">Fare</th>
                                  <th style="width: 8%;font-size:10px;">Acc</th>
                                  <th style="width: 8%;font-size:10px;">Meals</th>
                                  <th style="width: 8%;font-size:10px;">Petties</th>
@@ -89,7 +91,7 @@
                                     <td style="text-align: left;font-size:10px;">{{ $claim->billingrefno }}</td>
                                     <td style="text-align: left;font-size:10px;">
                                         {{\Carbon\Carbon::parse($claim->start_time)->format('d M,Y')}}
-                                        
+
                                     </td>
                                     <td style="text-align: justify;font-size:10px;">{{ $claim->clientname }}</td>
                                     <td style="text-align: justify;font-size:10px;">{{ $claim->city }}</td>
@@ -99,10 +101,10 @@
                                     <td style="text-align: justify;font-size:9px;">
                                         @money($claim->meals)</td>
                                     <td style="text-align: justify;font-size:9px;">@money($claim->petties)</td>
-                                
+
                                     <td style="text-align: justify;font-size:9px;">@money($claim->claimamount)</td>
                                 </tr>
-                                   
+
                                 @endforeach
                                  @endif
                             </tbody>
@@ -118,11 +120,11 @@
                                 <td colspan="11" class="text-right fw-bold">Net To Pay </td><td>KES. </td>
                             </tr>
                            </tfoot>
-                         </table> 
+                         </table>
                      </div>
                  </div>
              </div>
- 
+
              <div class="row mt-3">
                  <div class="col-sm-12">
                      <table class="table table-borderless table-sm">
@@ -154,7 +156,7 @@
               </div>
             </main>
              </div>
-          </div> 
+          </div>
          </div>
          <div class="col-sm-1"></div>
        </div> <!-- end of print preview -->

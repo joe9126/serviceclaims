@@ -1,4 +1,4 @@
-var itemslist=[]; var j=1; 
+var itemslist=[]; var j=1;
 
 $("input[type=text]").val('');
 
@@ -48,7 +48,7 @@ $(document).ready(function(){
        inventoryRefresh();
        console.log("path found");
 
-    } 
+    }
 
 
 
@@ -70,9 +70,9 @@ function inventoryRefresh(){
        // console.log(data);
          $.each(data,function(index,value){
 
-                  itemslist.push(value.id); 
+                  itemslist.push(value.id);
 
-                  itemslist.push(value.name); 
+                  itemslist.push(value.name);
 
                 //  console.log(itemslist);
 
@@ -106,7 +106,7 @@ $("#sendto").on("change",function(){
 
  $(function(){
 
-      
+
 
      $("#inventorysearch").autocomplete({
 
@@ -116,7 +116,7 @@ $("#sendto").on("change",function(){
 
              response(results.slice(0,10));
 
-            // console.log("z-index: " + $(".ui-autocomplete").css("z-index")); 
+            // console.log("z-index: " + $(".ui-autocomplete").css("z-index"));
 
          }
 
@@ -134,9 +134,9 @@ $("#sendto").on("change",function(){
 
             $(this).attr("disabled", "disabled");
 
-            var productname = $(this).val(); 
+            var productname = $(this).val();
 
-            var i=0; 
+            var i=0;
 
 
 
@@ -160,7 +160,7 @@ $("#sendto").on("change",function(){
 
                   //alert(" partno 1: "+$("#supplylisttable tbody tr:nth-child(1)").find("td:nth-child(3)").text());
 
-                      
+
 
                     for(var t=1;t<=rows;t++){
 
@@ -168,7 +168,7 @@ $("#sendto").on("change",function(){
 
                          // alert("counter:"+t+"itemlistpart: "+itemlistpartno+" dbitempartno:"+data[0].partno);
 
-                          
+
 
                           if(itemlistpartno === $.trim(data[0].partno)||itemlistpartno===""){
 
@@ -180,11 +180,11 @@ $("#sendto").on("change",function(){
 
                              $("#supplylisttable tbody tr:nth-child("+t+")").find("td:nth-child(5)").text(data[0].name);
 
-                                                        
+
 
                             var itemqty =$("#supplylisttable tbody tr:nth-child("+t+")").find("td:nth-child(6)").text();
 
-                            
+
 
                               if(itemqty===""||itemqty===null){itemqty=parseInt("0");}
 
@@ -208,17 +208,17 @@ $("#sendto").on("change",function(){
 
                             $("#supplylisttable tbody tr:nth-child("+t+")").find("td:nth-child(11)").text(itemtotal);
 
-                            $('#inventorysearch').val(''); 
+                            $('#inventorysearch').val('');
 
-                             $('#inventorysearch').focus(); 
+                             $('#inventorysearch').focus();
 
-                            
+
 
                             return true;
 
                             }
 
-                           
+
 
                           }
 
@@ -254,23 +254,23 @@ $("#sendto").on("change",function(){
 
                             $("table#supplylisttable >tbody:last-child").append(itemdata);
 
-                            $('#inventorysearch').val('');  
+                            $('#inventorysearch').val('');
 
                             $('#inventorysearch').focus();
 
                             // alert($itemdata);
 
-                        
 
-                
+
+
 
               },compelete:function(data){ }
 
-           
+
 
         });
 
-            
+
 
             //Enable the textbox again if needed.
 
@@ -300,7 +300,7 @@ $("#currency").on("change",function(){
   var selectedcurrency = $("#currency").find(":selected").val();
   console.log(selectedcurrency);
   $("#csrcurrency").innerHTML = '';
- 
+
    $("#csrcurrency").text(selectedcurrency);
 });
 
@@ -328,7 +328,7 @@ $("#addproducts").on('click', function(){
 
       $("table#supplylisttable tbody tr:nth-child(1)").find("td:nth-child(4)").text(getRandom());
 
-      
+
 
      addNewrow();
 
@@ -423,19 +423,19 @@ function deleterow(row){
 
             if(status>0){
 
-              row.closest('tr').remove();  
+              row.closest('tr').remove();
 
             for(var i=1;i<=rows;i++){
 
               $("#supplylisttable tbody tr:nth-child("+i+") td:nth-child(2)").html(i);
 
-            } 
+            }
 
             $("#alertmessage").show();
 
             $(".message").text("Item deleted successfully!").fadeOut(4000);
 
-            
+
 
           }else{
 
@@ -445,7 +445,7 @@ function deleterow(row){
 
         }
 
-        
+
 
     });
 
@@ -551,9 +551,9 @@ function addNewrow(){
 
           }
 
-  }  
+  }
 
-         
+
 
 }
 
@@ -578,7 +578,7 @@ $(document).ready(function(){
 
                  var qty =  parseFloat($("#supplylisttable tr:nth-child("+i+") td:nth-child(6)").html());
 
-                var unitbuyprice =  parseFloat($("#supplylisttable tr:nth-child("+i+") td:nth-child(7)").html().replace(",","")); 
+                var unitbuyprice =  parseFloat($("#supplylisttable tr:nth-child("+i+") td:nth-child(7)").html().replace(",",""));
 
                   var marginrate =  parseFloat($("#supplylisttable tr:nth-child("+i+") td:nth-child(8)").html());
                   console.log("unit bp: "+unitbuyprice+" "+$("#supplylisttable tr:nth-child("+i+") td:nth-child(7)").html());
@@ -591,7 +591,7 @@ $(document).ready(function(){
 
                  var unitsaleprice =0;
 
-                 
+
 
        if(!isNaN(qty) && !isNaN(unitbuyprice)&&!isNaN(marginrate)){
 
@@ -599,7 +599,7 @@ $(document).ready(function(){
 
             $("#supplylisttable tr:nth-child("+i+") td:nth-child(9)").text(unitsaleprice.toFixed(2));
 
-            
+
 
         //  var formatsubtotal =  numeral(subtotal).format('0,0.0');
 
@@ -611,7 +611,7 @@ $(document).ready(function(){
 
                 $("#supplylisttable tr:nth-child("+i+") td:nth-child(11)").text($.number(itemtotal,2));
 
-             
+
 
            grandtotal = grandtotal+itemtotal;
            var selectedcurrency = $("#currency option:selected").text();
@@ -624,7 +624,7 @@ $(document).ready(function(){
 
          }
 
-     
+
 
    }
 
@@ -676,19 +676,19 @@ function showClients(){
 
          $("#clientid").append(option);
 
-        
+
 
           $("#customer").append(option);
 
           var choice = "<option value='"+value.id+"'>"+value.clientname+"</option>";
 
-            $("#customername").append(choice); 
+            $("#customername").append(choice);
 
             $(".clientdropdown").append(choice);
 
      });
 
-           
+
 
     }
 
@@ -703,7 +703,7 @@ function showClients(){
 $("#newcsrbtn").on("click",function(){
   $("#csrpanel").children().hide();
   $("#csrinfosection").hide();
-  
+
   $("#createcsrsection").show();
   countCSR(); //display the csr number
 });
@@ -730,7 +730,7 @@ function countCSR(){
 
            //alert("csr no:"+csrNum);
 
-           var csrnumber= /[^/]*$/.exec(csrNum)[0]; 
+           var csrnumber= /[^/]*$/.exec(csrNum)[0];
 
            if(csrnumber<1 || csrnumber==null){
 
@@ -750,7 +750,7 @@ function countCSR(){
 
                if(csrnumber>100){
 
-                csrdisplaynum = "TS"+date.getFullYear()+"/"+csrnumber; 
+                csrdisplaynum = "TS"+date.getFullYear()+"/"+csrnumber;
 
                }
 
@@ -758,7 +758,7 @@ function countCSR(){
 
                   csrdisplaynum = "TS"+date.getFullYear()+"/0"+csrnumber;
 
-                    
+
 
                }else  if(csrnumber<10){
 
@@ -766,7 +766,7 @@ function countCSR(){
 
                  }
 
-                   $("#csrno").val(csrdisplaynum); 
+                   $("#csrno").val(csrdisplaynum);
 
              }
 
@@ -824,7 +824,7 @@ function getUsers(){
 
 //   *********************************************** POST CSR DATA *********************************************************************************
 
- 
+
 /**
  * CREATE NEW CSR
  */
@@ -834,40 +834,40 @@ $(document).on("submit","#newcsrForm",function(event){
 
    if($("#newcsrForm").parsley().isValid()){
                     //   var itemslist = $("#supplylisttable tbody tr").length;
-                    var csrcheck = function(){ 
-                        var temp = 0; 
+                    var csrcheck = function(){
+                        var temp = 0;
                         $.ajax({url:"checkcsr",method:"get",data:{csrno:$("#csrno").val()},async:false,success(data){temp = data;}});
 
-                        return temp; 
+                        return temp;
                     }();
 
 
 
                         if($("#csrvalue").val()<1){
-                         
-                          $("#alertmessage").css("display","block").fadeOut(5000); 
-                          $("#alertmessage").removeClass("alert-success"); 
-                          $("#alertmessage").addClass("alert-danger"); 
-                          $(".message").text("Add at least one item!"); 
+
+                          $("#alertmessage").css("display","block").fadeOut(5000);
+                          $("#alertmessage").removeClass("alert-success");
+                          $("#alertmessage").addClass("alert-danger");
+                          $(".message").text("Add at least one item!");
                           $("#alertmessage")[0].scrollIntoView();
                         }
 
                         else if(csrcheck<1){
 
                              if($("#costingsheet").get(0).files.length===0){
-                             
-                               $(".message").text("Attach the costing sheet!"); 
-                               $("#alertmessage").css("display","block").fadeOut(5000); 
-                               $("#alertmessage").removeClass("alert-success"); 
-                              $("#alertmessage").addClass("alert-danger"); 
+
+                               $(".message").text("Attach the costing sheet!");
+                               $("#alertmessage").css("display","block").fadeOut(5000);
+                               $("#alertmessage").removeClass("alert-success");
+                              $("#alertmessage").addClass("alert-danger");
                               $("#alertmessage")[0].scrollIntoView();
                               }
 
                               else if($("#purchaseorder").get(0).files.length===0){
-                               
+
                                 $(".message").text("Attach the purchase order!");
-                                $("#alertmessage").removeClass("alert-success"); 
-                                $("#alertmessage").addClass("alert-danger"); 
+                                $("#alertmessage").removeClass("alert-success");
+                                $("#alertmessage").addClass("alert-danger");
                                 $("#alertmessage").css("display","block").fadeOut(5000);
                                 $("#alertmessage")[0].scrollIntoView();
                               }
@@ -875,22 +875,22 @@ $(document).on("submit","#newcsrForm",function(event){
                               else if($("#quotation").get(0).files.length===0){
                                 $("#alertmessage")[0].scrollIntoView();
                                 $(".message").text("Attach the quotation!");
-                                $("#alertmessage").removeClass("alert-success"); 
-                                $("#alertmessage").addClass("alert-danger"); 
+                                $("#alertmessage").removeClass("alert-success");
+                                $("#alertmessage").addClass("alert-danger");
                                   $("#alertmessage").css("display","block").fadeOut(5000);
 
                               }else{
-                              
+
                                 postCSRData();
 
-                              } 
+                              }
                         }
 
                        else{
                          postCSRData();
-                            }                                  
+                            }
 
-                        } 
+                        }
             });
 
 
@@ -912,21 +912,21 @@ function postCSRData(){
         formdata.append('status', $("#status option:selected").val());
 
         /**
-         * collect csr supplied items 
+         * collect csr supplied items
          */
-        
+
         var csritemstatus=0;
-        var csrvalue=0; var itemtotal;        
+        var csrvalue=0; var itemtotal;
         var rows = $("#supplylisttable tbody tr").length;
-        var csrnum =$("#csrno").val(); 
-        var csritemstatus=0; var csritemsmsg=""; 
-        // var formdata = new FormData(); 
-         var sucess_state=0; 
-        let csritems = []; 
+        var csrnum =$("#csrno").val();
+        var csritemstatus=0; var csritemsmsg="";
+
+         var sucess_state=0;
+        let csritems = [];
 
         for(var i=1;i<=rows;i++){
             itemtotal = parseFloat($("tr:nth-child("+i+") td:nth-child(11)").text().replace(",",""));
-             csrvalue = csrvalue+itemtotal;  
+             csrvalue = csrvalue+itemtotal;
                var itemid =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(3)").text();
                var  partnum = $("#supplylisttable tr:nth-child("+i+") td:nth-child(4)").text();
                 var descript = $("#supplylisttable tr:nth-child("+i+") td:nth-child(5)").text();
@@ -934,57 +934,56 @@ function postCSRData(){
                 var unitBP =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(7)").text();
                 var markup  =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(8)").text();
                 var unitSP  =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(9)").text();
-                var vat =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(10)").text(); 
+                var vat =  $("#supplylisttable tr:nth-child("+i+") td:nth-child(10)").text();
 
               var items ={
                    csrno:csrnum,itemid:itemid,
                    partno:partnum,qty:qty,
                    unitbp:unitBP,markup:markup,
-                   unitsp:unitSP, vatrate:vat, 
+                   unitsp:unitSP, vatrate:vat,
                    itemtotal:itemtotal,name:descript
                  };
 
-               csritems.push(items);  
+               csritems.push(items);
             }
-            formdata.append('csritems',JSON.stringify(csritems)); 
+            formdata.append('csritems',JSON.stringify(csritems));
 
     /**
      * collect the attachments
-     *  */        
+     *
+     * */
      var status=0; let csrattachments = [];
-    var rows2 = $("#attachmentstable tbody tr").length; 
-    var clientname = $("#clientid option:selected").text(); 
+    var rows2 = $("#attachmentstable tbody tr").length;
+    var clientname = $("#clientid option:selected").text();
     formdata.append('clientname',clientname);
-   
-  for(var i=1;i<=rows2;i++){ 
+
+  for(var i=1;i<=rows2;i++){
       var filename = $("#attachmentstable tr:nth-child("+i+") td:nth-child(2) input[type='text']").val();
-      var attachment = $("#attachmentstable tr:nth-child("+i+") td:nth-child(3) input[type='file']")[0].files[0]; 
-      var fileInput = $.trim($("#attachmentstable tr:nth-child("+i+") td:nth-child(3) input[type='file']").val()); 
+      var attachment = $("#attachmentstable tr:nth-child("+i+") td:nth-child(3) input[type='file']")[0].files[0];
+      var fileInput = $.trim($("#attachmentstable tr:nth-child("+i+") td:nth-child(3) input[type='file']").val());
       if(filename!=null && fileInput !=='' && fileInput){
          formdata.append('Attachment['+i+']', attachment);
       }
-     
+
     }
-
-
 
     /**
      * get the recipient's to receive notification
      */
     var mail_list = [];
-    var notification = $("#sendto option:selected").val(); 
-    formdata.append('notification',notification);   
-     
-    for(var j=1;j<=$("#recipientslist tbody tr").length;j++){
-            var list ={ 
-                  "name":$("#recipientslist tr:nth-child("+i+") td:nth-child(2)").text(), 
-                "email":$("#recipientslist tr:nth-child("+i+") td:nth-child(3)").text() 
-              };
+    var notification = $("#sendto option:selected").val();
+    formdata.append('notification',notification);
 
-              mail_list.push(list); 
-      } 
-   formdata.append('mailinglist',JSON.stringify(mail_list)); 
-   
+    for(var j=1;j<=$("#recipientslist tbody tr").length;j++){
+            var list ={
+                  "name":$("#recipientslist tr:nth-child("+j+") td:nth-child(2)").text(),
+                "email":$("#recipientslist tr:nth-child("+j+") td:nth-child(3)").text()
+              };
+//console.log(list);
+              mail_list.push(list);
+      }
+   formdata.append('mailinglist',JSON.stringify(mail_list));
+//console.log(formdata);
 
    /**
     * POST CSR DATA
@@ -992,54 +991,54 @@ function postCSRData(){
   var originalSavebtn = $("#savecsrBtn").clone();
         $.ajax({
 
-                 url:"newcsr", 
-                 method:"post", 
-                 data:formdata, 
-                 dataType:"json", 
-                 processData:false, 
-                 contentType:false, 
-                 beforeSend:function() { 
-                  var spinner = '<div class="spinner-border text-light spinner-border-sm" role="status"><span class="visually-hidden"> Loading...</span></div>'; 
-                  $("#alertmessage").removeClass("alert-success"); 
-                  $("#alertmessage").addClass("alert-info"); 
-                 $(".message").html(spinner+" Processing..."); 
-                 $("#alertmessage").css("display","block"); 
-                      // $("#savecsrBtn").html(spinner+" Wait");
+                 url:"newcsr",
+                 method:"post",
+                 data:formdata,
+                 dataType:"json",
+                 processData:false,
+                 contentType:false,
+                 beforeSend:function() {
+                  var spinner = '<div class="spinner-border text-success spinner-border-sm" role="status"><span class="visually-hidden"> Loading...</span></div>';
+                  $("#alertmessage").removeClass("alert-success");
+                  $("#alertmessage").addClass("alert-info");
+                 $(".message").html(spinner+" Processing...");
+                 $("#alertmessage").css("display","block");
+                 $("#alertmessage")[0].scrollIntoView();
                         },
 
-                         success:function(data){ 
+                         success:function(data){
                            var btntext = "<i class='fa fa-save'></i> Save";
                           $('#saveitemBtn').val(btntext);
                           $("#alertmessage")[0].scrollIntoView();
-                              if(data.response>0){ 
-                                  $("#alertmessage").removeClass("alert-info"); 
-                                  $("#alertmessage").addClass("alert-success"); 
-                                 $(".message").text(data.msg); 
-                                 $("#alertmessage").css("display","block").fadeOut(5000); 
-                                 
+                              if(data.response>0){
+                                  $("#alertmessage").removeClass("alert-info");
+                                  $("#alertmessage").addClass("alert-success");
+                                 $(".message").text(data.msg);
+                                 $("#alertmessage").css("display","block").fadeOut(5000);
 
-                                 $("#purchaseorder").val(null); $("#pofilename").val(null); 
-                                 $("#quotation").val(null);  $("#quotefilename").val(null); 
-                                $("#costingsheet").val(null);  $("#costingfilename").val(null); 
-                                 $("#others").val(null);  $("#othersfilename").val(null); 
+
+                                 $("#purchaseorder").val(null); $("#pofilename").val(null);
+                                 $("#quotation").val(null);  $("#quotefilename").val(null);
+                                $("#costingsheet").val(null);  $("#costingfilename").val(null);
+                                 $("#others").val(null);  $("#othersfilename").val(null);
                                    $('#newcsrForm')[0].reset(); $('#newcsrForm').parsley().reset();
-       
+
                                $('#supplylisttable tbody').empty();
-       
-                              $('#saveitemBtn').attr('disabled', false); 
+
+                              $('#saveitemBtn').attr('disabled', false);
                              addNewrow();
-                             setTimeout(function(){ 
-                               // document.location.reload();
-                               }, 5000); 
+                             setTimeout(function(){
+
+                               }, 6000);
 
                                  }else{
-                                  
+
                                   $("#alertmessage")[0].scrollIntoView();
                                   $(".message").text(data.msg);
-                                  $("#alertmessage").removeClass("alert-success"); 
-                                  $("#alertmessage").addClass("alert-danger"); 
+                                  $("#alertmessage").removeClass("alert-success");
+                                  $("#alertmessage").addClass("alert-danger");
                                     $("#alertmessage").css("display","block").fadeOut(3000);
-                                 
+
                                  }
 
                               }
@@ -1100,7 +1099,7 @@ $(document).on("click","table#csrtable >tbody >tr",function(e){
 
              $("#clientid option:selected").val(data[0].id);
 
-             $("#description").val(data[0].description); 
+             $("#description").val(data[0].description);
 
               $("#csrdate").val(data[0].csrdate);
 
@@ -1112,16 +1111,16 @@ $(document).on("click","table#csrtable >tbody >tr",function(e){
                $("#grandtotal").text($.number(data[0].csrvalue,2));
                $("#csrcurrency").text(data[0].currency);
 
-                $("#currency option:selected").val(data[0].currency); 
+                $("#currency option:selected").val(data[0].currency);
 
-                 $("#salespersons1 option:selected").text(data[0].saleperson); 
-                 $("#salespersons1 option:selected").val(data[0].salepersonid); 
+                 $("#salespersons1 option:selected").text(data[0].saleperson);
+                 $("#salespersons1 option:selected").val(data[0].salepersonid);
 
                 $("#status option:selected").val(data[0].status);
 
                 $("#grandtotal").val($.number(data[0].csrvalue,2));
 
-        },  
+        },
 
         complete: function(){
 
@@ -1155,13 +1154,13 @@ $(document).on("click","table#csrtable >tbody >tr",function(e){
 
                 var deleteicon = "<a class='deleterow' onclick='deleterow($(this))'><i class='fa fa-times'></></a>";
 
-                var subtotal = parseFloat(value.unitcost)*parseFloat(value.qty); 
+                var subtotal = parseFloat(value.unitcost)*parseFloat(value.qty);
 
              // console.log("vat "+(1+ parseFloat(value.vat)/100));
 
                 var unitbp = value.unitbp;
 
-                
+
 
                 var tr = "<tr><td>"+deleteicon+"</td>"+
 
@@ -1285,7 +1284,7 @@ $("#printcsrBtn").on("click",function(){
 
           }
 
-   
+
 
 }
 
@@ -1312,7 +1311,7 @@ $(".downloadbtn").on("click", function(){
   var csrno = $("#csrno").val();
 
 //alert("filename is: "+filename);
-window.location.href = "downloadattachment?filename="+filename+"&csrno="+csrno; 
+window.location.href = "downloadattachment?filename="+filename+"&csrno="+csrno;
 });
 
 $(".filebrowser").on("change",function(){
@@ -1335,7 +1334,7 @@ $(".deletebtn").on("click", function(){
   var filename = $(this).closest('tr').find("input[type='text']").val();
   var csrno = $("#csrno").val();
 
-  
+
   if(filename !==''||filename===null){
 
     $.ajax({
@@ -1391,67 +1390,67 @@ $(".deletebtn").on("click", function(){
  }
 });
 
- 
+
 /**
  * DELETE CSR
  */
- 
+
 $("#deletecsrBtn").on("click",function(){
-  $.ajax({ 
+  $.ajax({
 
-    url:"deletecsr", 
+    url:"deletecsr",
 
-    method:"post", 
+    method:"post",
 
-    dataType:"json", 
+    dataType:"json",
 
     beforeSend:function(){
 
-         $('#printcsrBtn').attr('disabled', 'disabled'); 
-    }, 
+         $('#printcsrBtn').attr('disabled', 'disabled');
+    },
 
-    data:{csrno:$("#csrno").val()}, 
+    data:{csrno:$("#csrno").val()},
 
-    success:function(data){ 
-         if(data.response>0){ 
+    success:function(data){
+         if(data.response>0){
 
-                   $("#alertmessage").removeClass("alert-danger");  
+                   $("#alertmessage").removeClass("alert-danger");
 
-                   $("#alertmessage").addClass("alert-success"); 
+                   $("#alertmessage").addClass("alert-success");
 
-                  $(".message").text(data.msg); 
+                  $(".message").text(data.msg);
 
-                   $("#alertmessage").css("display","block").fadeOut(5000); 
+                   $("#alertmessage").css("display","block").fadeOut(5000);
 
-                   $('#printcsrBtn').attr('disabled', false);  
+                   $('#printcsrBtn').attr('disabled', false);
 
-                   $("#purchaseorder").val(null); $("#pofilename").val(null); 
+                   $("#purchaseorder").val(null); $("#pofilename").val(null);
 
-                      $("#quotation").val(null);  $("#quotefilename").val(null); 
+                      $("#quotation").val(null);  $("#quotefilename").val(null);
 
-                     $("#costingsheet").val(null);  $("#costingfilename").val(null); 
+                     $("#costingsheet").val(null);  $("#costingfilename").val(null);
 
-                    $("#others").val(null);  $("#othersfilename").val(null); 
-                  $('#newcsrForm')[0].reset(); 
-                  $('#newcsrForm').parsley().reset(); 
-                  $('#supplylisttable tbody').empty(); 
+                    $("#others").val(null);  $("#othersfilename").val(null);
+                  $('#newcsrForm')[0].reset();
+                  $('#newcsrForm').parsley().reset();
+                  $('#supplylisttable tbody').empty();
 
-                  $('#saveitemBtn').attr('disabled', false); 
+                  $('#saveitemBtn').attr('disabled', false);
 
-                 addNewrow(); 
-                 setTimeout(function(){ 
-                    document.location.reload();
+                 addNewrow();
+                 setTimeout(function(){
+                   // document.location.reload();
                  }, 5000);
-               }else{ 
-                    $("#alertmessage").removeClass("alert-success"); 
-                   $("#alertmessage").addClass("alert-danger"); 
+               }else{
+                    $("#alertmessage").removeClass("alert-success");
+                   $("#alertmessage").addClass("alert-danger");
 
-                  $(".message").text(data.msg); 
-               } 
+                  $(".message").text(data.msg);
+               }
 
-    } 
+    }
 
-}); 
+});
 
 });
 
@@ -1481,63 +1480,63 @@ $(document).ready(function(){
     // console.log(salesdata);
      var newcollection =[];
      var sales =salesdata.sales;
-     
-     
+
+
    const salesUSD =  sales.filter(item => item.currency.indexOf('USD') !== -1);
    var l = salesUSD.length;
-     for(var x=0;x<l;x++){ 
+     for(var x=0;x<l;x++){
         var s = {month:salesUSD[x].monthname, sales:{USD:salesUSD[x].monthsales}};
-        newcollection.push(s); 
+        newcollection.push(s);
       }
       const salesKES =  sales.filter(item => item.currency.indexOf('KES') !== -1);
-   
-      
-     for(var x in salesKES){ 
-      
+
+
+     for(var x in salesKES){
+
           if(salesKES.monthname === newcollection.month){
             //console.log(newcollection[x].month);
               if(newcollection[x] !=null)
               {
-                 newcollection[x].sales.KES = salesKES[x].monthsales; 
-             
-              } 
+                 newcollection[x].sales.KES = salesKES[x].monthsales;
+
+              }
           }
           else{
-           
+
             switch(salesKES[x].month){
               case 1:
                 var s = {month:"January",sales:{USD:0,KES:salesKES[x].monthsales}};
-                newcollection.push(s); 
+                newcollection.push(s);
                 break;
               case 2:
                   var s = {month:"February",sales:{USD:0,KES:salesKES[x].monthsales}};
-                  newcollection.push(s); 
+                  newcollection.push(s);
                   break;
               case 3:
                     var s = {month:"March",sales:{USD:0,KES:salesKES[x].monthsales}};
-                    newcollection.push(s); 
-                    break; 
-                    
+                    newcollection.push(s);
+                    break;
+
                 case 4:
                       var s = {month:"April",sales:{USD:0,KES:salesKES[x].monthsales}};
-                      newcollection.push(s); 
+                      newcollection.push(s);
                       break;
                 case 5:
                 var s = {month:"May",sales:{USD:0,KES:salesKES[x].monthsales}};
-                newcollection.push(s); 
+                newcollection.push(s);
                 break;
             }
-           
+
           }
      }
     // console.log(newcollection);
-   
+
       var saleschart  = new Chart(ctx,{});
-   
-   // 
-     
+
+   //
+
        saleschart.destroy();
-       
+
         saleschart = new Chart(ctx,{
           type:'bar',
           data:{
@@ -1566,7 +1565,7 @@ $(document).ready(function(){
                     yAxisKey: 'sales.KES'
                    }
               },
-             
+
               ]
             },
             options: {
@@ -1577,8 +1576,8 @@ $(document).ready(function(){
               }
             }
          });
-        
-    
+
+
     }
   });
 }

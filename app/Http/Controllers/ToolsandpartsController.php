@@ -45,7 +45,7 @@ class ToolsandpartsController extends Controller
             "clients.clientname",
             "users.name as receivedby"
         )
-        
+
         ->join("partsinventory","partsinventory.partno","=","addedparts.partno")
         ->join("clients","clients.id","=","addedparts.client")
         ->join("users","users.id","=","addedparts.receivedby")
@@ -120,7 +120,7 @@ public function addStock(Request $request){
         "receivedon"=>$request->receivedon,
       ]
 );
-       
+
         if($response){
             $response = PartStock::updateOrCreate(
                 [
@@ -171,7 +171,7 @@ public function addStock(Request $request){
      if($response){
         $response =  PartStock::where("partno",$value->partno)
                                 //->where("client",$value->client)
-                                 ->update( 
+                                 ->update(
                                         [
                                         "quantity"=>DB::raw("quantity -".$value->quantity),
                                         ]
@@ -208,7 +208,8 @@ public function getClients(){
 public function getUsers(){
         $users = User::select(
             "id",
-            "name"
+            "name",
+            "email"
         )
         ->orderBy("name","ASC")
         ->get();
